@@ -21,8 +21,6 @@ def secret():
     return os.environ['unsplash_access']
 
 
-
-
 def play(request, player_id):
     player = get_object_or_404(Player, pk=player_id)
     players = Player.objects.filter()

@@ -16,14 +16,13 @@ class Player(models.Model):
 
     def deal_hand(self):
         key = secret()
-        image_urls = []
         hand = list(self.card_set.all())
         quantity = HAND_SIZE - len(hand)
         if quantity > 0:
-            url = "https://api.unsplash.com/photos/random?client_id={}&count={}&query=surreal".format(key.strip(), quantity)
+            url = "https://api.unsplash.com/photos/random?client_id={}&count={}&query=weird".format(key.strip(), quantity)
             print("Getting images from {}".format(url))
             for image in requests.get(url).json():
-                card = Card(player=self, img_url=image['urls']['raw'], artist="n/a")
+                card = Card(player=self, img_url=image['urls']['small'], artist="n/a")
                 card.save()
 
 
