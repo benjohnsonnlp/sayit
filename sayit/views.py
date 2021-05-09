@@ -1,3 +1,6 @@
+import logging
+import os
+
 import requests
 from bs4 import BeautifulSoup
 from django.shortcuts import render, get_object_or_404
@@ -7,18 +10,24 @@ from django.urls import reverse
 
 from sayit.models import Player
 
+logger = logging.getLogger("views")
+
 
 def index(request):
     return render(request, "sayit/index.html", context=None)
 
 
+def secret():
+    return os.environ['unsplash_access']
+
+
 def get_hand(quantity):
-    with open('keys.keys') as f:
-        key = f.readline()
+    key = secret()
     image_urls = []
-    for i in range(quantity):
-        response = requests.get("https://api.unsplash.com/photos/random?client_id=" + key.strip()).json()
-        image_urls.append(response['urls']['raw'])
+    url = "https://api.unsplash.com/photos/random?client_id={}&count={}&query=surreal".format(key.strip(), quantity)
+    print("Getting images from {}".format(url))
+    response = requests.get(url).json()
+    image_urls.append(response['urls']['raw'])
 
     return image_urls
 

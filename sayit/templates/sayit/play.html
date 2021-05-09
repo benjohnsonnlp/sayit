@@ -23,14 +23,19 @@
     <h1>SayIt!</h1>
     <ul>
         {% for some_player in players %}
-        <li {% if some_player.name == player.name %}style="color:green"{%endif%}>
-            {{some_player.name}}
-        </li>
+            <li {% if some_player.name == player.name %}style="color:green"{% endif %}>
+                {{ some_player.name }}
+            </li>
         {% endfor %}
     </ul>
     <div>
         {% for card in hand %}
-        <img class="col-md-2" src="{{card}}"/>
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-body">
+                    <img class="col-md-2" src="{{ card }}"/>
+                    <button type="button" class="w-100 btn btn-lg btn-primary">Play</button>
+                </div>
+            </div>
         {% endfor %}
     </div>
 </div>
