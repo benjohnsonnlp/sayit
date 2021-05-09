@@ -21,23 +21,14 @@ def secret():
     return os.environ['unsplash_access']
 
 
-def get_hand(quantity):
-    key = secret()
-    image_urls = []
-    url = "https://api.unsplash.com/photos/random?client_id={}&count={}&query=surreal".format(key.strip(), quantity)
-    print("Getting images from {}".format(url))
-    response = requests.get(url).json()
-    image_urls.append(response['urls']['raw'])
-
-    return image_urls
 
 
 def play(request, player_id):
     player = get_object_or_404(Player, pk=player_id)
     players = Player.objects.filter()
-    hand_of_cards = get_hand(6)
+    player.deal_hand()
     context = {
-        "hand": hand_of_cards,
+        "hand": [img.img_url for img in player.card_set.all()],
         "player": player,
         "players": players,
     }
